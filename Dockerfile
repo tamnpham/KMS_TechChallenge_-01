@@ -11,4 +11,5 @@ WORKDIR "./KMS_TechChallenge_01"
 
 RUN pip install -r requirements.txt --force
 RUN chmod +x run.sh
+
 CMD ["sh","run.sh"]
