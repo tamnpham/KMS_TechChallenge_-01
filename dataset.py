@@ -74,7 +74,7 @@ class GPTDataset(object):
             None
         """
         txt_data = self.to_txt()
-        local_path = './' + file_name.split('/')[-1]
+        local_path = './data/' + file_name.split('/')[-1]
 
         print(local_path)
 
@@ -103,6 +103,3 @@ if __name__ == '__main__':
     if args.output_file:
         path_to_txt = args.output_file
         dataset.save_txt(path_to_txt)
-    else:
-        dataset.save_txt(path_to_json.replace('.json', '.txt'))
-

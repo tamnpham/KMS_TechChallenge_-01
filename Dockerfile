@@ -7,10 +7,5 @@ RUN git clone https://github.com/tamnpham/KMS_TechChallenge_01.git
 WORKDIR "./KMS_TechChallenge_01"
 
 RUN pip install -r requirements.txt --force
-
-# COPY something.txt .
-COPY load_model.py .
-
-RUN python load_model.py
-
-CMD ["python","trainer.py","-i","base_data/wikisql.txt","-e","3", "-p" , "./125, "-c" , "True"]
+RUN chmod +x run.sh
+CMD ["sh","run.sh"]

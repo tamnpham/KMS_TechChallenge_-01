@@ -22,10 +22,10 @@ class OwnCloud():
         #     print(e)
         #     self.connected = False
 
-    def load_file(self, file_path):
+    def get_file(self, file_path):
         if self.connected:
             try:
-                local_path = './' + file_path.split('/')[-1]
+                local_path = './data/' + file_path.split('/')[-1]
                 success = self.oc.get_file(file_path , local_path)
                 return local_path
             except Exception as e:

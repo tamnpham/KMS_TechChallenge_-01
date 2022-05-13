@@ -1,0 +1,5 @@
+env
+125M
+model/*
+save/*
+data/*
