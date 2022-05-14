@@ -33,8 +33,9 @@ class OwnCloud():
                 return None
 
     
-    def put_file(self , remote_file, local_file):
+    def put_file(self , local_file, remote_file):
         if self.connected:
+            print(remote_file)
             success = self.oc.put_file(remote_file, local_file)
             return success
         else:

@@ -1,0 +1,1 @@
+{"data": [{"schema": "table(name : text, score: number )", "question": "who have score over 9", "sql": "SELECT name FROM TABLE WHERE score > 9"}]}

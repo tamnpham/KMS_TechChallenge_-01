@@ -6,7 +6,6 @@ from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()
 
-
 start , end, schema, question, code = '<|startoftext|>\n' , '\n<|endoftext|>\n' , '[SCHEMA]:' , '\n[QUESTION]:' , '\n[SQL]:'
 
 def make_sample(s, q, c):

@@ -10,14 +10,12 @@ from server.models.GPT import (
     GPTSchema
 )
 
-
 router = APIRouter()
 
 
 @router.post("/", response_description="Predict area")
 async def predict_GPT(request: GPTSchema):
     data = jsonable_encoder(request)
-    
     print(data)
 
     schema = data['db_schema']
@@ -25,7 +23,6 @@ async def predict_GPT(request: GPTSchema):
     settings = data['settings']
 
     code = generate_code(schema, question, settings)
-    
     
     response = {
         "sql" : code,

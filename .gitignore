@@ -2,3 +2,5 @@ env
 125M
 model/*
 save/*
+saved
+__pycache__

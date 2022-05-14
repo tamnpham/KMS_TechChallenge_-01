@@ -1,0 +1,3 @@
+<|startoftext|>
+table(name : text, score: number ) | who have score over 9 | SELECT name FROM TABLE WHERE score > 9
+<|endoftext|>

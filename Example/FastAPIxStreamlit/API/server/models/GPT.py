@@ -2,9 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-
-
-
 class GPTSchema(BaseModel):
     """GPT Q&A Model"""
 
@@ -14,13 +11,14 @@ class GPTSchema(BaseModel):
     class Config:
         schema_extra = {
             "example" : {
-                "db_schema" : ["id_field : text_FIELD" , "name_field : text_TYPE", "score_field : text_TYPE" ],
-                "question" : "tell me all name havng age more than 6",
+                "db_schema" : [ "name : text_FIELD" , "score : text_TYPE" ],
+                "question" : "show name have score over 8",
                 "settings": {
-                    "temperature" : 0.75,
-                    "num_beams" : 10,
-                    "top_p" : 0.6,
-                    "top_k" : 50,
+                    # "temperature" : 0.75,
+                    # "num_beams" : 10,
+                    # "top_p" : 0.6,
+                    # "top_k" : 50,
+                    "model_ver": "baseline"
                 }
             }
         }
