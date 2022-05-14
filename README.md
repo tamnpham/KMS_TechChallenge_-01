@@ -2,8 +2,6 @@
 
 # GPT Wrapper for KMS Technical Challenge
 
-> by tsdocode from CoE
-
 ![](./assets/pipeline.png)
 
 

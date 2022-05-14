@@ -1,7 +1,7 @@
 import os
 from model import GPTModel
 from dataset import GPTDataset
-from happytransformer import  GENTrainArgs
+from happytransformer import GENTrainArgs
 from cloud import OwnCloud
 import argparse
 import bz2
@@ -36,7 +36,9 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--output-folder", help="Output model folder", type=str)
     parser.add_argument("-p", "--pretrained", help="Output model folder", type=str)
     parser.add_argument("-c", "--cloud", help="Using OwnCloud", type=bool , default= False)
-    
+    parser.add_argument("-d", "--drive", help="Using Drive", type=bool, default=False)
+    parser.add_argument("-dp", "--drive-path", help="Output model drive folder", type=bool, default=False)
+
     args = parser.parse_args()
     
     load_path = None
@@ -65,6 +67,10 @@ if __name__ == '__main__':
             cloud = args.cloud
         else:
             cloud = False
+        if args.drive:
+            drive = args.drive
+        else:
+            drive = False
     
     else:
         print('Please specify input data')
@@ -90,7 +96,7 @@ if __name__ == '__main__':
         
         if not isExist:
             os.makedirs(save_path)
-            
+        
         model.save(save_path + path_to_output)
 
         shutil.make_archive(save_path + path_to_output, 'bztar', save_path + path_to_output)
@@ -98,6 +104,10 @@ if __name__ == '__main__':
         if cloud:
             oc.put_file(save_path + path_to_output + '.tar.bz2', 'TechChallenge/Results/' + path_to_output + '.tar.bz2')
     
+        if drive:
+            drive_path = args.drive_path
+            shutil.mv(save_path + path_to_output + '.tar.bz2', drive_path + path_to_output + '.tar.bz2')
+              
     except Exception as e:
         print(e)
 
