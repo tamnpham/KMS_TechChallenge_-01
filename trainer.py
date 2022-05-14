@@ -37,7 +37,7 @@ if __name__ == '__main__':
     parser.add_argument("-p", "--pretrained", help="Output model folder", type=str)
     parser.add_argument("-c", "--cloud", help="Using OwnCloud", type=bool , default= False)
     parser.add_argument("-d", "--drive", help="Using Drive", type=bool, default=False)
-    parser.add_argument("-dp", "--drive-path", help="Output model drive folder", type=bool, default=False)
+    parser.add_argument("-dp", "--drive-path", help="Output model drive folder", type=str, default=False)
 
     args = parser.parse_args()
     
