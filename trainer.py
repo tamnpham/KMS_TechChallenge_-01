@@ -106,7 +106,7 @@ if __name__ == '__main__':
     
         if drive:
             drive_path = args.drive_path
-            shutil.mv(save_path + path_to_output + '.tar.bz2', drive_path + path_to_output + '.tar.bz2')
+            shutil.copy(save_path + path_to_output + '.tar.bz2', drive_path + path_to_output + '.tar.bz2')
               
     except Exception as e:
         print(e)
