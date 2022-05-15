@@ -1,0 +1,21 @@
+services:
+  api:
+    build: api/
+    container_name: tc-api
+    expose:
+      - 5000
+    ports:
+      - '5000:5000'
+    networks:
+      - techchallenge
+  ui:
+    build: ui/
+    container_name: tc-ui
+    expose:
+      - 8501
+    ports:
+      - '8501:8501' 
+    networks:
+      - techchallenge
+networks:
+  techchallenge:
