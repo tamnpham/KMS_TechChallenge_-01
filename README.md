@@ -53,4 +53,5 @@ docker build tamnpham/tc-gpt-core .
 docker push tamnpham/tc-gpt-core
 ```
 Access to job-runner server, fill image name to create a job
+
 ![image](https://user-images.githubusercontent.com/90249100/168628783-5c268dab-d75e-41a2-ad6f-5f78996581ce.png)
