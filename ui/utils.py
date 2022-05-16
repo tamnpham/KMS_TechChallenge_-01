@@ -35,7 +35,11 @@ def get_answer(question, data, settings):
     db_schema = [x.replace(' ', '_').upper()  + " : " + data[x] for x in data.keys()]
  
 
+<<<<<<< HEAD
     url = "http://localhost:8000/api/text2sql"
+=======
+    url = "http://api:5000/api/text2sql"
+>>>>>>> dd8aeed1c54b5aa2bd36142df120342a75da0d2b
 
     data = {
         "db_schema" : db_schema,
