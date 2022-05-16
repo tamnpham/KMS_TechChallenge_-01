@@ -1,113 +1,56 @@
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1QIOEfsB7DPcPRp9VX3fK2yg6atybkHvq#scrollTo=Bsy56wuXOPg1)
+# TechChallenge #01: GPT Wrapper
 
-# GPT Wrapper for KMS Technical Challenge
+**Workflow:**
+- Training model -> Pretrained model
+- Import model to API -> API
+- UI query API
 
-![](./assets/pipeline.png)
+## Step 1: Training model
+In this step, we use 2 environnents depend on situations:
 
+### Solution 1: Training model in colab and save to drive
+- Our colab file at https://drive.google.com/file/d/10Yfi-Osm9RsnnwoFmmvQII5ufyOuRuMK/view?usp=sharing
 
-## Resources
-Use KMS email to access resources
+Add path to dataset and convert to txt file
+![image](https://user-images.githubusercontent.com/90249100/168620892-53818ef7-8787-4814-84f9-12d995c92447.png)
 
-[Pretrained model](https://drive.google.com/drive/folders/11aWe3IZ0pfxujwzsFHwSzgJuAlPryBNs?usp=sharing)
+Add path to dataset txt and output to somewhere in drive
+![image](https://user-images.githubusercontent.com/90249100/168622040-2619417c-cb25-44ea-9cec-b91cd47c26cc.png)
 
-[Sample Dataset](https://drive.google.com/drive/folders/1eQ6T2AGa5-1UXZfNwE3HdrOpWwXZKttu?usp=sharing)
+Finally, download model after saving & import to API
 
-Checkout [FastAPIxStreamlit](https://github.com/tsdocode/GPT-Example) example
+### Solution 2: Training model in job-runner GPU & save to Owncloud in KMS server 
+- In colab, it just keep the state about 12 hours so that we are not able to train model exceed this duration -> Use job-runner
 
+Job-runner will run our container environment through Dockerfile, therfore, we have to dockerize everything needed to train model. Then, we save model into Owncloud server.
 
-
-## **1. Installation**
-
-**1.1 Install Miniconda**
-
-Follow this [instruction](https://docs.conda.io/en/latest/miniconda.html#) to install miniconda.
-Skip it if you using Google Colab or sth else.
-
-If you using Google Colab, please add **!** symbol before instruction below
-
-Example:
-```python
-!pip install -r requirements.txt
 ```
+FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-devel
 
+RUN rm /etc/apt/sources.list.d/cuda.list
+RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 
-**1.2 Install Library**
+RUN apt-get update
+RUN apt-get install -y git
+
+RUN git clone https://github.com/tamnpham/KMS_TechChallenge_01.git
+WORKDIR "./KMS_TechChallenge_01"
+
+RUN pip install -r requirements.txt --force
+RUN chmod +x run.sh
+
+CMD ["sh","run.sh"]
 ```
-git clone https://github.com/tsdocode/gpt-wrapper.git
-cd gpt-wrapper
-pip install -r requirements.txt
+- run.sh
 ```
-
-
-## **2. Data preparing**
-Sample data format
-```json
-{
-    'data' : [
-        {
-            'schema' : "",
-            'question' : "",
-            'sql' : ""
-        },
-        {
-            'schema' : "",
-            'question' : "",
-            'sql' : ""
-        }
-
-    ]
-}
+python load_model.py
+python dataset.py -i './data/sample_data.json' -o './data/sample_data.txt'
+python trainer.py -i './data/sample_data.txt' -m '125M' -e 3 -o 'baseline' -c True
 ```
-
-Collect and annotate your data with this format.
-
-## **3. Turn json dataset into trainable txt**
-```python
-python dataset.py -i <input_file> -o <output_file>
+Then build image & push to dockerhub (public)
 ```
-
-if you don't provide --output-file, file name will be the same as --input-file
-
-You can also custom txt dataset by modify **make_prompt()** function in dataset.py
-
-## **4. Train GPT**
-```python
-python trainer.py -i <input_data> -o <output_model_folder> -m <model_name> -p <pretrained_model_path> -e <epochs> -l <learning_rate>  
+docker build tamnpham/tc-gpt-core .
+docker push tamnpham/tc-gpt-core
 ```
-default:
-- model_name: 125M
-- epochs: 1
-- learning_rate: 5e-5
-
-if you want to continued training from a previous model, you can use -p to specify the path of the previous model. 
-
-## **5. Inference**
-```python
-from model import GPTModel
-
-#Define custom preprocess and postprocess
-#You can also edit default function in utils.py
-def preprocessing(schema, question):
-    #Feel free to custom input prompt
-    prompt = f"{schema} \n {question} \n"
-    return prompt
-
-def postprocessing(result):
-    return result
-
-
-text_to_sql = GPTModel(model_path='/path/to/model/')
-
-schema = ""
-question = ""
-
-SQL = text_to_sql.generate(schema, question, preprocessing, postprocessing)
-print(SQL)
-```
-
-## **6. Eval**
-Coming soon...
-
-
-
-
+Access to job-runner server, fill image name to create a job
+![image](https://user-images.githubusercontent.com/90249100/168628783-5c268dab-d75e-41a2-ad6f-5f78996581ce.png)
