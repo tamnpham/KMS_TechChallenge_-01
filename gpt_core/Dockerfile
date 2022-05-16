@@ -7,9 +7,11 @@ RUN apt-get update
 RUN apt-get install -y git
 
 RUN git clone https://github.com/tamnpham/KMS_TechChallenge_01.git
-WORKDIR "./KMS_TechChallenge_01/gpt-core"
+WORKDIR "./KMS_TechChallenge_01/gpt_core"
 
 RUN pip install -r requirements.txt --force
-RUN chmod +x run.sh
 
-CMD ["sh","run.sh"]
+RUN python load_model.py
+RUN chmod +x entrypoint.sh
+
+CMD ["sh","entrypoint.sh"]
