@@ -7,7 +7,7 @@ RUN apt-get update
 RUN apt-get install -y git
 
 RUN git clone https://github.com/tamnpham/KMS_TechChallenge_01.git
-WORKDIR "./KMS_TechChallenge_01"
+WORKDIR "./KMS_TechChallenge_01/gpt-core"
 
 RUN pip install -r requirements.txt --force
 RUN chmod +x run.sh
