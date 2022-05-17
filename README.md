@@ -60,3 +60,34 @@ Access to job-runner server, fill image name to create a job
 Check Owncloud
 ![image](https://user-images.githubusercontent.com/90249100/168648874-6dd94a01-8f95-41dd-9906-ea962736e83e.png)
 
+## Step 2: Import pretrained model to API
+Clone this repo & download pretrained model to /api/server/gpt/pretrained_model
+
+## Step 3: Deployment
+We use docker-compose to wrap API vs UI
+
+```
+services:
+  api:
+    build: api/
+    container_name: tc-api
+    expose:
+      - 5000
+    ports:
+      - '5000:5000'
+    networks:
+      - techchallenge
+  ui:
+    build: ui/
+    container_name: tc-ui
+    expose:
+      - 8501
+    ports:
+      - '8501:8501' 
+    networks:
+      - techchallenge
+networks:
+  techchallenge:
+```
+
+``` docker-compose up -d --build ```
